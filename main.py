@@ -9,31 +9,58 @@ def on_b_pressed():
         toolbar.change_number(ToolbarNumberAttribute.SELECTED_INDEX, 1)
 controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
 
+def on_a_pressed():
+    global DisplayErr
+    if holdTorch and DisplayErr:
+        DisplayErr = False
+        achievements.create("Error: Cannot use torch as Weapon",
+            1,
+            "Error•Error•Error•Error•Error•Error",
+            img("""
+                8 . . . . . . . . . . . . . . .
+                . 8 . . . . . . . . . . . . . .
+                . . 8 . . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . . . . . .
+                . . . . 8 . . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . 8 . . . . . . . . . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . 8 . . . . . . . . . . . . .
+                . 8 . . . . . . . . . . . . . .
+                8 . . . . . . . . . . . . . . .
+                """))
+    elif toolbar.get_number(ToolbarNumberAttribute.SELECTED_INDEX) == 1 and False:
+        pass
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
 # Custom color function replacing color.set_palette
 def changeColor():
-    global holdTorch
     if holdTorch:
-        # Full brightness / warm torchlight palette
-        color.set_color(1, color.rgb(255, 255, 255)) # White
-        color.set_color(2, color.rgb(255, 33, 33))   # Bright Red
-        color.set_color(3, color.rgb(255, 147, 196)) # Pink / Skin highlight
-        color.set_color(4, color.rgb(255, 129, 53))  # Orange / Ambient light
-        color.set_color(5, color.rgb(255, 246, 0))   # Yellow flame
-        color.set_color(6, color.rgb(0, 0, 0))       # Black
+        color.set_color(1, color.rgb(255, 255, 255))
+        color.set_color(2, color.rgb(255, 33, 33))
+        color.set_color(3, color.rgb(255, 147, 196))
+        color.set_color(4, color.rgb(255, 129, 53))
+        color.set_color(5, color.rgb(255, 246, 0))
+        color.set_color(6, color.rgb(0, 0, 0))
     else:
-        # Dark, scary horror palette (heavy shadows & murky tones)
-        color.set_color(1, color.rgb(60, 65, 75))    # Ghostly dim gray
-        color.set_color(2, color.rgb(35, 5, 5))      # Dried blood / pitch dark red
-        color.set_color(3, color.rgb(40, 30, 35))    # Shadowed tint
-        color.set_color(4, color.rgb(10, 10, 18))    # Pitch-black background/walls
-        color.set_color(5, color.rgb(30, 30, 20))    # Dull dead ember
-        color.set_color(6, color.rgb(0, 0, 0))       # Absolute black
+        color.set_color(1, color.rgb(60, 65, 75))
+        color.set_color(2, color.rgb(35, 5, 5))
+        color.set_color(3, color.rgb(40, 30, 35))
+        color.set_color(4, color.rgb(10, 10, 18))
+        color.set_color(5, color.rgb(30, 30, 20))
+        color.set_color(6, color.rgb(0, 0, 0))
 selectedIndex = 0
 holdTorch = False
 toolbar: Inventory.Toolbar = None
+DisplayErr = False
 myItemSprite: Sprite = None
+DisplayErr = True
 lastIndex = -1
-# Initial start in dim / grayscale mode
 changeColor()
 mySprite = Render.get_render_sprite_variable()
 Render.set_view_mode(ViewMode.RAYCASTING_VIEW)
