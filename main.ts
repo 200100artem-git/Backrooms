@@ -388,6 +388,24 @@ let FlashlightItem = Inventory.create_item("Torch", FlashlightImg, "Light")
 let SwordItem = Inventory.create_item("Sword", SwordImg, "Attack")
 let HandItem = Inventory.create_item("Hand", HandImg)
 toolbar = Inventory.create_toolbar([FlashlightItem, SwordItem, HandItem], 3)
+let myEnemy = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . f f f . . . . . . . . 
+    . . . f f 2 2 2 f f . . . . . . 
+    . . f 2 2 2 2 2 2 2 f . . . . . 
+    . f f f f f f 2 2 2 f . . . . . 
+    . f 6 1 1 6 6 f 2 2 2 f . . . . 
+    f 6 1 1 1 6 6 6 f 2 2 f f f . . 
+    f 6 6 6 6 6 6 6 f 2 2 f 2 2 f . 
+    . f 6 6 6 6 6 f 2 2 2 f 2 2 f . 
+    . f f f f f f 2 2 2 2 f 2 2 f . 
+    . f 2 2 2 2 2 2 2 2 2 f 2 2 f . 
+    . f 2 2 2 2 2 2 2 2 2 f 2 2 f . 
+    . f 2 2 2 2 2 2 2 2 2 f f f . . 
+    . f 2 2 f f f f 2 2 2 f . . . . 
+    . f 2 2 f . . . f 2 2 f . . . . 
+    . . f f . . . . . f f . . . . . 
+    `, SpriteKind.Enemy)
 toolbar.setPosition(74, 103)
 toolbar.setFlag(SpriteFlag.RelativeToCamera, true)
 game.onUpdateInterval(100, function () {
