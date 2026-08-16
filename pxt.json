@@ -7,7 +7,8 @@
         "pxt-raycasting": "github:AqeeAqee/pxt-raycasting#v0.3.18",
         "Inventory": "github:UnsignedArduino/Inventory#v1.1.1",
         "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
-        "Achievements": "github:meeeeeeeep1/achievements#4910ba22f82f73691752a6af29ed23215662723a"
+        "Achievements": "github:meeeeeeeep1/achievements#4910ba22f82f73691752a6af29ed23215662723a",
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.1.0"
     },
     "files": [
         "main.blocks",
