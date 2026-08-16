@@ -1,68 +1,73 @@
-namespace SpriteKind {
-    export const Hand = SpriteKind.create()
-}
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (toolbar.get_number(ToolbarNumberAttribute.SelectedIndex) == 2) {
-        toolbar.set_number(ToolbarNumberAttribute.SelectedIndex, 0)
-    } else {
-        toolbar.change_number(ToolbarNumberAttribute.SelectedIndex, 1)
-    }
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (holdTorch && DisplayErr) {
-        DisplayErr = false
-        achievements.create("Error: Cannot use torch as Weapon", 1, "Error•Error•Error•Error•Error•Error", img`
-            8 . . . . . . . . . . . . . . . 
-            . 8 . . . . . . . . . . . . . . 
-            . . 8 . . . . . . . . 8 8 . . . 
-            . . . 8 . . . . . . . 8 8 . . . 
-            . . . 8 . . . . . . . . . . . . 
-            . . . . 8 . . . . . . . . . . . 
-            . . . . . 8 . . . . . . . . . . 
-            . . . . . 8 . . . . . . . . . . 
-            . . . . . 8 . . . . . . . . . . 
-            . . . . . 8 . . . . . . . . . . 
-            . . . . 8 . . . . . . . . . . . 
-            . . . 8 . . . . . . . 8 8 . . . 
-            . . . 8 . . . . . . . 8 8 . . . 
-            . . 8 . . . . . . . . . . . . . 
-            . 8 . . . . . . . . . . . . . . 
-            8 . . . . . . . . . . . . . . . 
-            `)
-    } else if (toolbar.get_number(ToolbarNumberAttribute.SelectedIndex) == 1 && false) {
-    	
-    }
-})
-// Custom color function replacing color.set_palette
-function changeColor () {
-    if (holdTorch) {
-        color.setColor(1, color.rgb(255, 255, 255))
-        color.setColor(2, color.rgb(255, 33, 33))
-        color.setColor(3, color.rgb(255, 147, 196))
-        color.setColor(4, color.rgb(255, 129, 53))
-        color.setColor(5, color.rgb(255, 246, 0))
-        color.setColor(6, color.rgb(0, 0, 0))
-    } else {
-        color.setColor(1, color.rgb(60, 65, 75))
-        color.setColor(2, color.rgb(35, 5, 5))
-        color.setColor(3, color.rgb(40, 30, 35))
-        color.setColor(4, color.rgb(10, 10, 18))
-        color.setColor(5, color.rgb(30, 30, 20))
-        color.setColor(6, color.rgb(0, 0, 0))
-    }
-}
-let selectedIndex = 0
-let holdTorch = false
-let toolbar: Inventory.Toolbar = null
-let DisplayErr = false
-let myItemSprite : Sprite = null
-DisplayErr = true
-let lastIndex = -1
+@namespace
+class SpriteKind:
+    Hand = SpriteKind.create()
+
+def on_b_pressed():
+    if toolbar.get_number(ToolbarNumberAttribute.SELECTED_INDEX) == 2:
+        toolbar.set_number(ToolbarNumberAttribute.SELECTED_INDEX, 0)
+    else:
+        toolbar.change_number(ToolbarNumberAttribute.SELECTED_INDEX, 1)
+controller.B.on_event(ControllerButtonEvent.PRESSED, on_b_pressed)
+
+def on_a_pressed():
+    global DisplayErr
+    if holdTorch and DisplayErr:
+        DisplayErr = False
+        achievements.create("Error: Cannot use torch as Weapon",
+            1,
+            "Error•Error•Error•Error•Error•Error",
+            img("""
+                8 . . . . . . . . . . . . . . .
+                . 8 . . . . . . . . . . . . . .
+                . . 8 . . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . . . . . .
+                . . . . 8 . . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . . 8 . . . . . . . . . .
+                . . . . 8 . . . . . . . . . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . . 8 . . . . . . . 8 8 . . .
+                . . 8 . . . . . . . . . . . . .
+                . 8 . . . . . . . . . . . . . .
+                8 . . . . . . . . . . . . . . .
+                """))
+    elif toolbar.get_number(ToolbarNumberAttribute.SELECTED_INDEX) == 1 and False:
+        pass
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+# Custom color function replacing color.set_palette
+def changeColor():
+    if holdTorch:
+        color.set_color(1, color.rgb(255, 255, 255))
+        color.set_color(2, color.rgb(255, 33, 33))
+        color.set_color(3, color.rgb(255, 147, 196))
+        color.set_color(4, color.rgb(255, 129, 53))
+        color.set_color(5, color.rgb(255, 246, 0))
+        color.set_color(6, color.rgb(0, 0, 0))
+    else:
+        color.set_color(1, color.rgb(60, 65, 75))
+        color.set_color(2, color.rgb(35, 5, 5))
+        color.set_color(3, color.rgb(40, 30, 35))
+        color.set_color(4, color.rgb(10, 10, 18))
+        color.set_color(5, color.rgb(30, 30, 20))
+        color.set_color(6, color.rgb(0, 0, 0))
+selectedIndex = 0
+holdTorch = False
+toolbar: Inventory.Toolbar = None
+DisplayErr = False
+myItemSprite: Sprite = None
+DisplayErr = True
+lastIndex = -1
 changeColor()
-let mySprite = Render.getRenderSpriteVariable()
-Render.setViewMode(ViewMode.raycastingView)
-tiles.setCurrentTilemap(tilemap`level3`)
-scene.setBackgroundImage(img`
+mySprite = Render.get_render_sprite_variable()
+Render.set_view_mode(ViewMode.RAYCASTING_VIEW)
+tiles.set_current_tilemap(tilemap("""
+    level3
+    """))
+scene.set_background_image(img("""
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
@@ -329,90 +334,112 @@ scene.setBackgroundImage(img`
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
     4444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
-    `)
-let FlashlightImg = img`
-    . . . . . . 2 . 2 . . . . . . . 
-    . . . . . 5 2 2 2 5 5 . . . . . 
-    . . . . 5 5 4 2 2 4 5 . . . . . 
-    . . . . 5 4 4 2 4 4 5 . . . . . 
-    . . . . 5 4 4 2 4 4 5 . . . . . 
-    . . . . 5 4 4 2 4 4 5 . . . . . 
-    . . . . 5 4 4 4 4 4 5 . . . . . 
-    . . . . . 5 4 4 5 5 . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    `
-let SwordImg = img`
-    . . . . . . . . . . . . . 6 6 6 
-    . . . . . . . . . . . . 6 9 8 6 
-    . . . . . . . . . . . 6 9 8 9 6 
-    . . . . . . . . . . 6 9 8 9 6 . 
-    . . . . . . . . . 6 9 8 9 6 . . 
-    . . . . . . . . 6 9 8 9 6 . . . 
-    . . 6 6 . . . 6 9 8 9 6 . . . . 
-    . . 6 8 6 . 6 9 8 9 6 . . . . . 
-    . . . 6 8 6 9 8 9 6 . . . . . . 
-    . . . 6 8 6 8 9 6 . . . . . . . 
-    . . . . 6 8 6 6 . . . . . . . . 
-    . . . e e 6 8 8 6 . . . . . . . 
-    . . e e e . 6 6 8 6 . . . . . . 
-    6 6 e e . . . . 6 6 . . . . . . 
-    6 9 6 . . . . . . . . . . . . . 
-    6 6 6 . . . . . . . . . . . . . 
-    `
-let HandImg = img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . 4 . . . . . . . . . . . . . 
-    . 4 d 4 . . . . . . . . . . . . 
-    . 4 d 4 4 . 4 . 4 . . . . . . . 
-    . 4 d 4 d 4 d 4 d 4 . . . . . . 
-    . 4 d d d d d d d 4 . 4 . . . . 
-    . 4 d d d d d d d 4 4 d 4 . . . 
-    . 4 d d d d d d d d d d 4 . . . 
-    . 4 d d d d d d d d d d 4 . . . 
-    . 4 d d d d d d d d d d 4 . . . 
-    . 4 d d d d d d d d d d 4 . . . 
-    . . 4 4 d d d d d d 4 4 . . . . 
-    . . . . 4 4 d d 4 4 . . . . . . 
-    . . . . . . 4 4 . . . . . . . . 
-    `
-let FlashlightItem = Inventory.create_item("Torch", FlashlightImg, "Light")
-let SwordItem = Inventory.create_item("Sword", SwordImg, "Attack")
-let HandItem = Inventory.create_item("Hand", HandImg)
+    """))
+FlashlightImg = img("""
+    . . . . . . 2 . 2 . . . . . . .
+    . . . . . 5 2 2 2 5 5 . . . . .
+    . . . . 5 5 4 2 2 4 5 . . . . .
+    . . . . 5 4 4 2 4 4 5 . . . . .
+    . . . . 5 4 4 2 4 4 5 . . . . .
+    . . . . 5 4 4 2 4 4 5 . . . . .
+    . . . . 5 4 4 4 4 4 5 . . . . .
+    . . . . . 5 4 4 5 5 . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    . . . . . . e e . . . . . . . .
+    """)
+SwordImg = img("""
+    . . . . . . . . . . . . . 6 6 6
+    . . . . . . . . . . . . 6 9 8 6
+    . . . . . . . . . . . 6 9 8 9 6
+    . . . . . . . . . . 6 9 8 9 6 .
+    . . . . . . . . . 6 9 8 9 6 . .
+    . . . . . . . . 6 9 8 9 6 . . .
+    . . 6 6 . . . 6 9 8 9 6 . . . .
+    . . 6 8 6 . 6 9 8 9 6 . . . . .
+    . . . 6 8 6 9 8 9 6 . . . . . .
+    . . . 6 8 6 8 9 6 . . . . . . .
+    . . . . 6 8 6 6 . . . . . . . .
+    . . . e e 6 8 8 6 . . . . . . .
+    . . e e e . 6 6 8 6 . . . . . .
+    6 6 e e . . . . 6 6 . . . . . .
+    6 9 6 . . . . . . . . . . . . .
+    6 6 6 . . . . . . . . . . . . .
+    """)
+HandImg = img("""
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . 4 . . . . . . . . . . . . .
+    . 4 d 4 . . . . . . . . . . . .
+    . 4 d 4 4 . 4 . 4 . . . . . . .
+    . 4 d 4 d 4 d 4 d 4 . . . . . .
+    . 4 d d d d d d d 4 . 4 . . . .
+    . 4 d d d d d d d 4 4 d 4 . . .
+    . 4 d d d d d d d d d d 4 . . .
+    . 4 d d d d d d d d d d 4 . . .
+    . 4 d d d d d d d d d d 4 . . .
+    . 4 d d d d d d d d d d 4 . . .
+    . . 4 4 d d d d d d 4 4 . . . .
+    . . . . 4 4 d d 4 4 . . . . . .
+    . . . . . . 4 4 . . . . . . . .
+    """)
+FlashlightItem = Inventory.create_item("Torch", FlashlightImg, "Light")
+SwordItem = Inventory.create_item("Sword", SwordImg, "Attack")
+HandItem = Inventory.create_item("Hand", HandImg)
 toolbar = Inventory.create_toolbar([FlashlightItem, SwordItem, HandItem], 3)
-toolbar.setPosition(74, 103)
-toolbar.setFlag(SpriteFlag.RelativeToCamera, true)
-game.onUpdateInterval(100, function () {
-    selectedIndex = toolbar.get_number(ToolbarNumberAttribute.SelectedIndex)
-    if (selectedIndex != lastIndex) {
+myEnemy = sprites.create(img("""
+        . . . . . . . . . . . . . . . .
+        . . . . . f f f . . . . . . . .
+        . . . f f 2 2 2 f f . . . . . .
+        . . f 2 2 2 2 2 2 2 f . . . . .
+        . f f f f f f 2 2 2 f . . . . .
+        . f 9 1 1 9 9 f 2 2 2 f . . . .
+        f 9 1 1 1 9 9 9 f 2 2 f f f . .
+        f 9 9 9 9 9 9 9 f 2 2 f 2 2 f .
+        . f 9 9 9 9 9 f 2 2 2 f 2 2 f .
+        . f f f f f f 2 2 2 2 f 2 2 f .
+        . f 2 2 2 2 2 2 2 2 2 f 2 2 f .
+        . f 2 2 2 2 2 2 2 2 2 f 2 2 f .
+        . f 2 2 2 2 2 2 2 2 2 f f f . .
+        . f 2 2 f f f f 2 2 2 f . . . .
+        . f 2 2 f . . . f 2 2 f . . . .
+        . . f f . . . . . f f . . . . .
+        """),
+    SpriteKind.enemy)
+toolbar.set_position(74, 103)
+toolbar.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
+
+def on_update_interval():
+    pass
+game.on_update_interval(15000, on_update_interval)
+
+def on_update_interval2():
+    global selectedIndex, lastIndex, myItemSprite, holdTorch
+    selectedIndex = toolbar.get_number(ToolbarNumberAttribute.SELECTED_INDEX)
+    if selectedIndex != lastIndex:
         lastIndex = selectedIndex
-        if (myItemSprite) {
+        if myItemSprite:
             sprites.destroy(myItemSprite)
-            myItemSprite = null
-        }
-        if (selectedIndex == 0) {
+            myItemSprite = None
+        if selectedIndex == 0:
             myItemSprite = sprites.create(FlashlightImg, SpriteKind.Hand)
-            myItemSprite.setFlag(SpriteFlag.RelativeToCamera, true)
-            myItemSprite.setPosition(139, 100)
+            myItemSprite.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
+            myItemSprite.set_position(139, 100)
             myItemSprite.scale = 5
-            holdTorch = true
-        } else if (selectedIndex == 1) {
+            holdTorch = True
+        elif selectedIndex == 1:
             myItemSprite = sprites.create(SwordImg, SpriteKind.Hand)
-            myItemSprite.setFlag(SpriteFlag.RelativeToCamera, true)
-            myItemSprite.setPosition(139, 100)
+            myItemSprite.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
+            myItemSprite.set_position(139, 100)
             myItemSprite.scale = 2.5
-            holdTorch = false
-        } else {
-            holdTorch = false
-        }
+            holdTorch = False
+        else:
+            holdTorch = False
         changeColor()
-    }
-})
+game.on_update_interval(100, on_update_interval2)

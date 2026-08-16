@@ -394,10 +394,10 @@ let myEnemy = sprites.create(img`
     . . . f f 2 2 2 f f . . . . . . 
     . . f 2 2 2 2 2 2 2 f . . . . . 
     . f f f f f f 2 2 2 f . . . . . 
-    . f 6 1 1 6 6 f 2 2 2 f . . . . 
-    f 6 1 1 1 6 6 6 f 2 2 f f f . . 
-    f 6 6 6 6 6 6 6 f 2 2 f 2 2 f . 
-    . f 6 6 6 6 6 f 2 2 2 f 2 2 f . 
+    . f 9 1 1 9 9 f 2 2 2 f . . . . 
+    f 9 1 1 1 9 9 9 f 2 2 f f f . . 
+    f 9 9 9 9 9 9 9 f 2 2 f 2 2 f . 
+    . f 9 9 9 9 9 f 2 2 2 f 2 2 f . 
     . f f f f f f 2 2 2 2 f 2 2 f . 
     . f 2 2 2 2 2 2 2 2 2 f 2 2 f . 
     . f 2 2 2 2 2 2 2 2 2 f 2 2 f . 
@@ -408,6 +408,9 @@ let myEnemy = sprites.create(img`
     `, SpriteKind.Enemy)
 toolbar.setPosition(74, 103)
 toolbar.setFlag(SpriteFlag.RelativeToCamera, true)
+game.onUpdateInterval(15000, function () {
+	
+})
 game.onUpdateInterval(100, function () {
     selectedIndex = toolbar.get_number(ToolbarNumberAttribute.SelectedIndex)
     if (selectedIndex != lastIndex) {
