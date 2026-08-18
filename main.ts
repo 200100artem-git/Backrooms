@@ -33,7 +33,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     	
     }
 })
-// Custom color function replacing color.set_palette
+controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
+    Render.toggleViewMode()
+})
 function changeColor () {
     if (holdTorch) {
         color.setColor(1, color.rgb(255, 255, 255))
@@ -349,22 +351,22 @@ let FlashlightImg = img`
     . . . . . . e e . . . . . . . . 
     `
 let SwordImg = img`
-    . . . . . . . . . . . . . 6 6 6 
-    . . . . . . . . . . . . 6 9 8 6 
-    . . . . . . . . . . . 6 9 8 9 6 
-    . . . . . . . . . . 6 9 8 9 6 . 
-    . . . . . . . . . 6 9 8 9 6 . . 
-    . . . . . . . . 6 9 8 9 6 . . . 
-    . . 6 6 . . . 6 9 8 9 6 . . . . 
-    . . 6 8 6 . 6 9 8 9 6 . . . . . 
-    . . . 6 8 6 9 8 9 6 . . . . . . 
-    . . . 6 8 6 8 9 6 . . . . . . . 
-    . . . . 6 8 6 6 . . . . . . . . 
-    . . . e e 6 8 8 6 . . . . . . . 
-    . . e e e . 6 6 8 6 . . . . . . 
-    6 6 e e . . . . 6 6 . . . . . . 
-    6 9 6 . . . . . . . . . . . . . 
-    6 6 6 . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . b b c c b b b b b b b b . . . 
+    c b c b b b b b b b b b b . . . 
+    c c c c c c c c c c c c c . . . 
+    b c b b c b b c . . . . . . . . 
+    c b b b c c c . . . . . . . . . 
+    c b b c . . . . . . . . . . . . 
+    c c c . . . . . . . . . . . . . 
     `
 let HandImg = img`
     . . . . . . . . . . . . . . . . 
@@ -408,8 +410,13 @@ let myEnemy = sprites.create(img`
     `, SpriteKind.Enemy)
 toolbar.setPosition(74, 103)
 toolbar.setFlag(SpriteFlag.RelativeToCamera, true)
+myEnemy.setPosition(1, 8)
 game.onUpdateInterval(15000, function () {
-	
+    music.play(music.melodyPlayable(music.sonar), music.PlaybackMode.InBackground)
+    myEnemy.follow(mySprite, 50)
+    timer.after(1000, function () {
+        myEnemy.unfollow()
+    })
 })
 game.onUpdateInterval(100, function () {
     selectedIndex = toolbar.get_number(ToolbarNumberAttribute.SelectedIndex)

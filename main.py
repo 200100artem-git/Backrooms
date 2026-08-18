@@ -1,6 +1,16 @@
 @namespace
 class SpriteKind:
     Hand = SpriteKind.create()
+def open_menu(tf: bool):
+    global myMenu
+    if tf:
+        gamePause()
+        myMenu = miniMenu.create_menu(miniMenu.create_menu_item("Volume down"),
+            miniMenu.create_menu_item("Volume up"),
+            miniMenu.create_menu_item("Console"),
+            miniMenu.create_menu_item("Stats only"))
+    elif not (tf):
+        pass
 
 def on_b_pressed():
     if toolbar.get_number(ToolbarNumberAttribute.SELECTED_INDEX) == 2:
@@ -38,7 +48,12 @@ def on_a_pressed():
         pass
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
-# Custom color function replacing color.set_palette
+def on_menu_pressed():
+    Render.toggle_view_mode()
+controller.menu.on_event(ControllerButtonEvent.PRESSED, on_menu_pressed)
+
+def gamePause():
+    pass
 def changeColor():
     if holdTorch:
         color.set_color(1, color.rgb(255, 255, 255))
@@ -56,6 +71,7 @@ def changeColor():
         color.set_color(6, color.rgb(0, 0, 0))
 selectedIndex = 0
 holdTorch = False
+myMenu: Sprite = None
 toolbar: Inventory.Toolbar = None
 DisplayErr = False
 myItemSprite: Sprite = None
@@ -354,22 +370,22 @@ FlashlightImg = img("""
     . . . . . . e e . . . . . . . .
     """)
 SwordImg = img("""
-    . . . . . . . . . . . . . 6 6 6
-    . . . . . . . . . . . . 6 9 8 6
-    . . . . . . . . . . . 6 9 8 9 6
-    . . . . . . . . . . 6 9 8 9 6 .
-    . . . . . . . . . 6 9 8 9 6 . .
-    . . . . . . . . 6 9 8 9 6 . . .
-    . . 6 6 . . . 6 9 8 9 6 . . . .
-    . . 6 8 6 . 6 9 8 9 6 . . . . .
-    . . . 6 8 6 9 8 9 6 . . . . . .
-    . . . 6 8 6 8 9 6 . . . . . . .
-    . . . . 6 8 6 6 . . . . . . . .
-    . . . e e 6 8 8 6 . . . . . . .
-    . . e e e . 6 6 8 6 . . . . . .
-    6 6 e e . . . . 6 6 . . . . . .
-    6 9 6 . . . . . . . . . . . . .
-    6 6 6 . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . b b c c b b b b b b b b . . .
+    c b c b b b b b b b b b b . . .
+    c c c c c c c c c c c c c . . .
+    b c b b c b b c . . . . . . . .
+    c b b b c c c . . . . . . . . .
+    c b b c . . . . . . . . . . . .
+    c c c . . . . . . . . . . . . .
     """)
 HandImg = img("""
     . . . . . . . . . . . . . . . .
@@ -414,9 +430,17 @@ myEnemy = sprites.create(img("""
     SpriteKind.enemy)
 toolbar.set_position(74, 103)
 toolbar.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
+myEnemy.set_position(1, 8)
 
 def on_update_interval():
-    pass
+    music.play(music.melody_playable(music.sonar),
+        music.PlaybackMode.IN_BACKGROUND)
+    myEnemy.follow(mySprite, 50)
+    
+    def on_after():
+        myEnemy.unfollow()
+    timer.after(1000, on_after)
+    
 game.on_update_interval(15000, on_update_interval)
 
 def on_update_interval2():
